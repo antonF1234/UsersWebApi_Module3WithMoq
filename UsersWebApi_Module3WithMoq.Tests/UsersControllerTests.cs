@@ -47,6 +47,20 @@ namespace UsersWebApi_Module3WithMoq.Tests
             // Assert
             Assert.IsInstanceOfType(result.Result, typeof(NotFoundObjectResult));
         }
+        
+        [TestMethod]
+        public async Task Login_ReturnsUnauthorized_WhenUserDoesNotExist()
+        {
+            // Arrange
+            _mockRepository.Setup(r => r.GetByUsernameAsync("ukendt")).ReturnsAsync((User)null);
+            var model = new LoginModel { Username = "ukendt", Password = "hemmeligt" };
+
+            // Act
+            var result = await _controller.Login(model);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(UnauthorizedObjectResult));
+        }
     
     }
 }
