@@ -33,5 +33,20 @@ namespace UsersWebApi_Module3WithMoq.Tests
             // Assert
             Assert.IsInstanceOfType(result.Result, typeof(BadRequestObjectResult));
         }
+        
+        // NY TEST INDSÆTTES HER, inde i klassen
+        [TestMethod]
+        public async Task GetById_ReturnsNotFound_WhenUserDoesNotExist()
+        {
+            // Arrange
+            _mockRepository.Setup(r => r.GetByIdAsync(1)).ReturnsAsync((User)null);
+
+            // Act
+            var result = await _controller.GetById(1);
+
+            // Assert
+            Assert.IsInstanceOfType(result.Result, typeof(NotFoundObjectResult));
+        }
+    
     }
 }
